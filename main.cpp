@@ -75,7 +75,7 @@ int main()
     tree1.serialize(file_out);
 
 
-    std::cout << (compare("file1.txt", "file2.txt") ? "Files are identical." : "Files are not identical.");
+    std::cout << (compare("file1.txt", "file2.txt") ? "Files are identical.\n" : "Files are not identical.\n");
 
 
 
