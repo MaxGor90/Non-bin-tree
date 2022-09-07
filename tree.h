@@ -35,13 +35,15 @@ public:
     //  Parse value
     Node::Type getValue(const std::string& str, Node::type_num data_type);
 
-    //  Add children from vector of strings
-    void addChildrenFromText(std::vector<std::string>& vec);
+    int getChildNum(const std::string& str);
 
     void printFile(std::ofstream& out);
 
 
     void serialize(File& file);
+
+
+    void deserialize(std::ifstream& in, Node* node);
 
 
     Node& operator[] (Node::Type val)

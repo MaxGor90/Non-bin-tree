@@ -21,10 +21,9 @@ struct delimeter
 
 static const struct
     {
-        delimeter root {"!Root!"};
         delimeter type {"type_id#"};
         delimeter value {"with_value#"};
-        delimeter children {"has_children:"};
+        delimeter children {"children_num:"};
         delimeter delim {";;"};
     } _Text;
 
@@ -56,9 +55,10 @@ public:
 
 
     //  Add multiple children via variadic template
+    //  Returning parent node
 
     template <typename T>
-    Node& addChild(T val)
+    Node& addChildren(T val)
     {
         ptr node_pt = std::make_unique<Node>(val);
         children.push_back(std::move(node_pt));
@@ -67,13 +67,23 @@ public:
     }
 
     template <typename T, typename... Args>
-    Node& addChild (T val, Args... args)
+    Node& addChildren (T val, Args... args)
     {
-        addChild(val);
+        addChildren(val);
 
-        addChild(args...);
+        addChildren(args...);
 
         return *this;
+    }
+
+
+    //  Add a single child and return pointer to that child
+    Node* addChild(Type val)
+    {
+        ptr node_pt = std::make_unique<Node>(val);
+        children.push_back(std::move(node_pt));
+
+        return children.back().get();
     }
 
 
@@ -89,9 +99,11 @@ public:
     
     void print(std::ofstream& out);
 
-    //  Print only needed info for serializing
-    //  Nodes without children are printed only as other nodes' children
-    void printNodes(std::ofstream& out);
+
+    void printChild_num(std::ofstream& out);
+
+
+    void serialize(std::ofstream& out);
 
 
     //  Search node with passed value, in case of success write its address into passed pointer

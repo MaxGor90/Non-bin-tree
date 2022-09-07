@@ -35,20 +35,20 @@ int main()
 
 
 
-   Tree tree {"T\nR E \n E"};
+   Tree tree {"TREE"};
 
    try 
    {
-       tree["T\nR E \n E"].addChild(1, "Johny I hardly knew ya", 12.5);
-       tree[1].addChild(2, 3, 4, 5);
-       tree["Johny I hardly knew ya"].addChild("Hello\nWorld!", 42);
-       tree[12.5].addChild(13.5);
-       tree[13.5].addChild(14.5, 15.5);
-       tree[15.5].addChild(16.5);
-       tree[2].addChild(2.5, 2.6);
-       tree[3].addChild(3.5, 3.6);
-       tree[4].addChild(4.5, 4.6);
-       tree[1].addChild(5.5, "5 point 6");
+       tree["TREE"].addChildren(1, "Johny I hardly knew ya", 12.5);
+       tree[1].addChildren(2, 3, 4, 5);
+       tree["Johny I hardly knew ya"].addChildren("Hello\nWorld!", 42);
+       tree[12.5].addChildren(13.5);
+       tree[13.5].addChildren(14.5, 15.5);
+       tree[15.5].addChildren(16.5);
+       tree[2].addChildren(2.5, 2.6);
+       tree[3].addChildren(3.5, 3.6);
+       tree[4].addChildren(4.5, 4.6);
+       tree[1].addChildren(2.5, "5 point 6");
    }
    catch (Node::Type value)
    {
@@ -67,12 +67,25 @@ int main()
 
 
     File file_in(File::READ, "file1.txt");
-    Tree tree1(file_in);
+
+    Tree* tree1;
+
+    try
+    {
+        tree1 = new Tree(file_in);
+
+    }
+    catch (Node::type_num data_type)
+    {
+        std::cerr << "An ERROR while reading data type: " << data_type;
+        return -1;
+    }
+
 
     File file_out(File::WRITE, "file2.txt");
 
     //  Serialize to compare in and out files
-    tree1.serialize(file_out);
+    tree1->serialize(file_out);
 
 
     std::cout << (compare("file1.txt", "file2.txt") ? "Files are identical.\n" : "Files are not identical.\n");

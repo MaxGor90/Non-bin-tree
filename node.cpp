@@ -26,29 +26,19 @@
     }
 
 
-    //  Print only needed info for serializing
-    //  Nodes without children are printed only as other nodes' children
-    void Node::printNodes(std::ofstream& out)
+    void Node::printChild_num(std::ofstream& out)
+    {
+        out << _Text.children.symbol;
+        out << static_cast<int>(children.size()) << _Text.delim.symbol << std::endl;
+    }
+
+    void Node::serialize(std::ofstream& out)
     {
         print(out);
-
-        if (children.size() == 0)
-        {
-            return;
-        }
-
-        out << _Text.children.symbol;
-        for (auto& child : children)
-        {
-            child.get()->print(out);
-        }
-        out << std::endl;
+        printChild_num(out);
 
         for (auto& child : children)
-        {
-            if (child.get()->children.size() > 0)
-                child.get()->printNodes(out);
-        }
+            child.get()->serialize(out);
     }
 
 
