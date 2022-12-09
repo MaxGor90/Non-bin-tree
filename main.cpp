@@ -86,6 +86,8 @@ int main()
 
     //  Serialize to compare in and out files
     tree1->serialize(file_out);
+    
+    delete tree1;
 
 
     std::cout << (compare("file1.txt", "file2.txt") ? "Files are identical.\n" : "Files are not identical.\n");
